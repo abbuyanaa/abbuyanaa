@@ -1,0 +1,68 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    // {
+    //   "type": "node",
+    //   "request": "launch",
+    //   "name": "Launch Server",
+    //   "program": "${workspaceFolder}/server/server.js",
+    //   "skipFiles": [
+    //     "<node_internals>/**"
+    //   ],
+    //   "runtimeExecutable": "node",
+    //   "runtimeArgs": [
+    //     "--inspect"
+    //   ],
+    //   "env": {
+    //     "NODE_OPTIONS": "--unhandled-rejections=strict"
+    //   }
+    // },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome Client",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/client"
+    },
+    {
+      "request": "launch",
+      "type": "msedge",
+      "name": "Launch Edge Client",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/client"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch App Client",
+      "program": "${workspaceFolder}/client/app.js",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "restart": true,
+      "localRoot": "${workspaceFolder}/client/"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Custom Next.js App",
+      "program": "${workspaceFolder}/client/app.js",
+      "cwd": "${workspaceFolder}/client",
+      "runtimeArgs": [
+        "--nolazy"
+      ],
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "smartStep": false,
+      "console": "integratedTerminal",
+      "autoAttachChildProcesses": true
+    }
+  ]
+}
