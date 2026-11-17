@@ -59,6 +59,7 @@ function Thumbnail({ src, title }) {
           alt={title}
           loading="lazy"
           onError={() => setFailed(true)}
+          // style={{ opacity: 0 }}
         />
       ) : (
         <Icon name="image-off" size={28} />
@@ -162,8 +163,8 @@ const VideoManager = () => {
   }, [videos, search]);
 
   useEffect(() => {
-    getAll();
-  }, []); 
+    (async () => getAll())();
+  }, [getAll]); 
 
   // Input Change
   const handleChange = (e) => {
@@ -177,9 +178,27 @@ const VideoManager = () => {
 
   // Reset
   const resetForm = () => {
-    setFormData({ ...INITIAL_FORM });
+    setFormData(INITIAL_FORM);
     setEditingId(null);
     clearError();
+  };
+
+
+  const exportToJson = () => {
+    // 1. Convert JSON object to a string with clean formatting (2-space indentation)
+    const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
+      JSON.stringify(videos, null, 2)
+    )}`;
+    
+    // 2. Create a temporary anchor element
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute('href', jsonString);
+    downloadAnchor.setAttribute('download', 'exported-data.json');
+    
+    // 3. Trigger the download programmatically
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
   };
 
   // Create & Update
@@ -206,6 +225,7 @@ const VideoManager = () => {
     try {
       await save(values, editingId);
       resetForm();
+      getAll();
     } catch (err) {
       console.error(err);
     }
@@ -229,6 +249,8 @@ const VideoManager = () => {
       behavior: 'smooth',
       block: 'start',
     });
+
+    getAll();
   };
 
   // Delete
@@ -244,6 +266,7 @@ const VideoManager = () => {
 
       if (editingId === item.id) {
         resetForm();
+        getAll();
       }
     } catch (err) {
       console.error(err);
@@ -385,6 +408,15 @@ const VideoManager = () => {
                   : editingId
                     ? 'Save Changes'
                     : 'Add Video'}
+              </button>
+              <button
+                type="button"
+                onClick={exportToJson}
+                disabled={!videos.length}
+                className="video-button video-button--secondary"
+              >
+                <Icon name="download" size={16} />
+                Export JSON
               </button>
             </div>
           </form>
