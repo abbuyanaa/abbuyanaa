@@ -59,7 +59,6 @@ function Thumbnail({ src, title }) {
           alt={title}
           loading="lazy"
           onError={() => setFailed(true)}
-          style={{ opacity: 0 }}
         />
       ) : (
         <Icon name="image-off" size={28} />
@@ -115,11 +114,7 @@ function ActionButtons({
         type="button"
         disabled={disabled}
         onClick={() => onDelete(item)}
-        className="
-          video-button
-          video-button--icon
-          video-button--delete
-        "
+        className="video-button video-button--icon video-button--delete"
         title="Delete"
         aria-label="Delete video"
       >
@@ -169,6 +164,13 @@ const VideoManager = () => {
   // Input Change
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'title') {
+      const checkID = videos.find(({ title }) => title.toLowerCase() === value.toLowerCase());
+      if (checkID) {
+        alert('이미 존재하는 제목입니다.');
+        return;
+      }
+    }
 
     setFormData((prev) => ({
       ...prev,
