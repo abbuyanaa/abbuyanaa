@@ -59,7 +59,7 @@ function Thumbnail({ src, title }) {
           alt={title}
           loading="lazy"
           onError={() => setFailed(true)}
-          // style={{ opacity: 0 }}
+          style={{ opacity: 0 }}
         />
       ) : (
         <Icon name="image-off" size={28} />
